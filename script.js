@@ -4,14 +4,8 @@ const money_minus = document.getElementById('money-minus');
 const list = document.getElementById('list');
 const form = document.getElementById('form');
 const text = document.getElementById('text');
-const amount = document.getElementById('amount');
-
-// const dummyTransactions = [
-//   { id: 1, text: 'Flower', amount: -20 },
-//   { id: 2, text: 'Salary', amount: 300 },
-//   { id: 3, text: 'Book', amount: -10 },
-//   { id: 4, text: 'Camera', amount: 150 }
-// ];
+const amount = document.getElementById('amountEarned');
+const amountSpent = document.getElementById('amountSpent');
 
 const localStorageTransactions = JSON.parse(
   localStorage.getItem('transactions')
@@ -24,26 +18,59 @@ let transactions =
 function addTransaction(e) {
   e.preventDefault();
 
-  if (text.value.trim() === '' || amount.value.trim() === '') {
+  if (text.value.trim() === '' || (amount.value.trim() === '' && amountSpent.value.trim() === '')) {
     alert('Please add an item and amount');
+  } else if (amount.value.trim() !== '' && amountSpent.value.trim() !== '')  {
+    alert('Please only enter amount earned or amount spent');
+  } else if (amountSpent.value.trim() === '') {
+    earned();   
   } else {
-    const transaction = {
-      id: generateID(),
-      text: text.value,
-      amount: +amount.value
-    };
-
-    transactions.push(transaction);
-
-    addTransactionDOM(transaction);
-
-    updateValues();
-
-    updateLocalStorage();
-
-    text.value = '';
-    amount.value = '';
+    spent();
   }
+}
+
+// Amount earned
+function earned() {
+  
+  const transaction = {
+    id: generateID(),
+    text: text.value,
+    amount: +amount.value
+  };
+
+  transactions.push(transaction);
+
+  addTransactionDOM(transaction);
+
+  updateValues();
+
+  updateLocalStorage();
+
+  text.value = '';
+  amount.value = '';
+
+}
+
+// Amount spent
+function spent() {
+  const transaction = {
+    id: generateID(),
+    text: text.value,
+    amount: -amountSpent.value
+  };
+
+  transactions.push(transaction);
+
+  addTransactionDOM(transaction);
+
+  updateValues();
+
+  updateLocalStorage();
+
+  text.value = '';
+  amountSpent.value = '';
+
+
 }
 
 // Generate random ID
