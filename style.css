@@ -180,6 +180,7 @@ input[type='numberNeg']:focus {
 
 .amount-exp-container {
   display: flex;
+  margin: 15px 0 15px 0;
 }
 
 .amount-exp-container > div {

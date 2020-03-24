@@ -104,28 +104,32 @@ function addTransactionDOM(transaction) {
   // Get sign
   const sign = transaction.amount < 0 ? '-' : '+';
 
-  const item = document.createElement('li');
-
-  // Add class based on value
-  item.classList.add(transaction.amount < 0 ? 'minus' : 'plus');
-
-  item.innerHTML = `
-    ${transaction.text} <span><br>${sign}$${Math.abs(
-    transaction.amount
-  )}</span> <button class="delete-btn" onclick="removeTransaction(${
-    transaction.id
-  })">x</button>
-  `;
-
-  list.insertBefore(item, list.childNodes[0]);
-
   // only insert incomes
   if ( transaction.amount >= 0 ) {
+
+    // add transaction to all transactions
+    const item = document.createElement('li');
+
+    // Add class based on value
+    item.classList.add(transaction.amount < 0 ? 'minus' : 'plus');
+
+    item.innerHTML = `
+      ${transaction.text} <span><br>${sign}$${Math.abs(
+      transaction.amount
+    )}</span> <button class="delete-btn" onclick="removeTransaction(${
+      transaction.id
+    })">x</button>
+    `;
+
+    list.insertBefore(item, list.childNodes[0]);
+
 
     const itemIncome = document.createElement('li');
 
     // Add class based on value
     itemIncome.classList.add(transaction.amount < 0 ? 'minus' : 'plus');
+
+    itemIncome.value = transaction.amount;
 
     itemIncome.innerHTML = `
       ${transaction.text} <span><br>${sign}$${Math.abs(
@@ -135,19 +139,59 @@ function addTransactionDOM(transaction) {
     })">x</button>
     `;
 
-    listIncome.insertBefore(itemIncome, listIncome.childNodes[0]);
-    
+    var added = false;
+
+    if ( listIncome.getElementsByTagName('li').length == 0 ) {
+      listIncome.insertBefore(itemIncome, listIncome.childNodes[0]);
+    } else {
+
+      // check which spot to add the new transaction
+      for ( var i = 0; i < listIncome.getElementsByTagName('li').length; i++ ) {
+        
+        if ( itemIncome.value >= listIncome.childNodes[i].value ) {
+          listIncome.insertBefore(itemIncome, listIncome.childNodes[i]);
+          added = true;
+          break;
+        }
+
+      }
+
+      if ( !added ) {
+        listIncome.appendChild(itemIncome);
+      }
+
+    }
+
   }
 
 
   // only insert expenses
   if ( transaction.amount < 0 ) {
 
+    // add transaction to all transactions
+    const item = document.createElement('li');
+
+    // Add class based on value
+    item.classList.add(transaction.amount < 0 ? 'minus' : 'plus');
+
+    item.innerHTML = `
+      ${transaction.text} <span><br>${sign}$${Math.abs(
+      transaction.amount
+    )}</span> <button class="delete-btn" onclick="removeTransaction(${
+      transaction.id
+    })">x</button>
+    `;
+
+    list.insertBefore(item, list.childNodes[0]);
+
+
     const itemExpense = document.createElement('li');
 
     // Add class based on value
     itemExpense.classList.add(transaction.amount < 0 ? 'minus' : 'plus');
 
+    itemExpense.value = transaction.amount;
+    
     itemExpense.innerHTML = `
       ${transaction.text} <span><br>${sign}$${Math.abs(
       transaction.amount
@@ -156,7 +200,28 @@ function addTransactionDOM(transaction) {
     })">x</button>
     `;
 
-    listExpense.insertBefore(itemExpense, listExpense.childNodes[0]);
+    var added = false;
+
+    if ( listExpense.getElementsByTagName('li').length == 0 ) {
+      listExpense.insertBefore(itemExpense, listExpense.childNodes[0]);
+    } else {
+
+      // check which spot to add the new transaction
+      for ( var i = 0; i < listExpense.getElementsByTagName('li').length; i++ ) {
+        
+        if ( itemExpense.value <= listExpense.childNodes[i].value ) {
+          listExpense.insertBefore(itemExpense, listExpense.childNodes[i]);
+          added = true;
+          break;
+        }
+
+      }
+
+      if ( !added ) {
+        listExpense.appendChild(itemExpense);
+      }
+
+    }
 
   }
 
@@ -200,7 +265,8 @@ function updateLocalStorage() {
 // Init app
 function init() {
   list.innerHTML = '';
-  //listIncome.innerHTML = '';
+  listIncome.innerHTML = '';
+  listExpense.innerHTML = '';
 
   transactions.forEach(addTransactionDOM);
   updateValues();
