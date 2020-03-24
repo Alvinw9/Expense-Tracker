@@ -96,7 +96,7 @@ function addTransactionDOM(transaction) {
   })">x</button>
   `;
 
-  list.appendChild(item);
+  list.insertBefore(item, list.childNodes[0]);
 }
 
 // Update the balance, income and expense
