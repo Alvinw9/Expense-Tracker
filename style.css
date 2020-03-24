@@ -83,15 +83,30 @@ h4 {
   margin-bottom: 40px;
 }
 
+ul {
+  overflow: hidden;
+  max-height: 200px;
+}
+
+ul:hover {
+  overflow-y: scroll;
+}
+
 .list li {
   background-color: #fff;
   box-shadow: var(--box-shadow);
   color: #333;
+  width: 85%;
+  left: 6.75%;
   display: flex;
   justify-content: space-between;
   position: relative;
   padding: 10px;
   margin: 10px 0;
+}
+
+.list li:hover {
+  width: 90%;
 }
 
 .list li.plus {
@@ -116,6 +131,7 @@ h4 {
   transform: translate(-100%, -50%);
   opacity: 0;
   transition: opacity 0.3s ease;
+  z-index: 9999;
 }
 
 .list li:hover .delete-btn {
