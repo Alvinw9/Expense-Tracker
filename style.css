@@ -21,7 +21,14 @@ body {
 
 .container {
   margin: 10px auto;
-  width: 350px;
+  max-width: 500px;
+  min-width: 300px;
+}
+
+@media only screen and (max-width: 500px) {
+  .container {
+    max-width: 95%;
+  }
 }
 
 h1 {
@@ -85,7 +92,7 @@ h4 {
 
 ul {
   overflow: hidden;
-  max-height: 200px;
+  max-height: 300px;
 }
 
 ul:hover {
@@ -167,16 +174,6 @@ input[type='numberNeg']:focus {
   flex: 1;
   text-align: center;
 }
-
-/*.form-control-earned {
-  border-style: solid;
-  border-color: #2ecc71;
-}
-
-.form-control-spent {
-  border-style: solid;
-  border-color: #ff0000;
-}*/
 
 .btn {
   cursor: pointer;

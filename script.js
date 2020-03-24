@@ -18,13 +18,21 @@ let transactions =
 function addTransaction(e) {
   e.preventDefault();
 
+  var currentDate = new Date();
+  var date = currentDate.getDate();
+  var month = currentDate.getMonth();
+  var year = currentDate.getFullYear();
+  var dateString = "<br>" + (month+1) + "-" + date + "-" + year + "<br>";
+
   if (text.value.trim() === '' || (amount.value.trim() === '' && amountSpent.value.trim() === '')) {
     alert('Please add an item and amount');
   } else if (amount.value.trim() !== '' && amountSpent.value.trim() !== '')  {
     alert('Please only enter amount earned or amount spent');
   } else if (amountSpent.value.trim() === '') {
+    text.value = text.value + dateString;
     earned();   
   } else {
+    text.value = text.value + dateString;
     spent();
   }
 }
@@ -32,9 +40,14 @@ function addTransaction(e) {
 // Amount earned
 function earned() {
   
+  var amounts = transactions.map(transaction => transaction.amount);
+  var total = amounts.reduce((acc, item) => (acc += item), 0).toFixed(2);
+  var newAmount = +amount.value;
+  var newTotal = parseFloat(total) + parseFloat(newAmount);
+
   const transaction = {
     id: generateID(),
-    text: text.value,
+    text: text.value + `$${newTotal}`,
     amount: +amount.value
   };
 
@@ -53,9 +66,15 @@ function earned() {
 
 // Amount spent
 function spent() {
+
+  var amounts = transactions.map(transaction => transaction.amount);
+  var total = amounts.reduce((acc, item) => (acc += item), 0).toFixed(2);
+  var newAmount = -amountSpent.value;
+  var newTotal = parseFloat(total) + parseFloat(newAmount);
+  
   const transaction = {
     id: generateID(),
-    text: text.value,
+    text: text.value + `$${newTotal}`,
     amount: -amountSpent.value
   };
 
@@ -89,7 +108,7 @@ function addTransactionDOM(transaction) {
   item.classList.add(transaction.amount < 0 ? 'minus' : 'plus');
 
   item.innerHTML = `
-    ${transaction.text} <span>${sign}${Math.abs(
+    ${transaction.text} <span><br>${sign}$${Math.abs(
     transaction.amount
   )}</span> <button class="delete-btn" onclick="removeTransaction(${
     transaction.id
