@@ -2,6 +2,8 @@ const balance = document.getElementById('balance');
 const money_plus = document.getElementById('money-plus');
 const money_minus = document.getElementById('money-minus');
 const list = document.getElementById('list');
+const listIncome = document.getElementById('listIncome');
+const listExpense = document.getElementById('listExpense');
 const form = document.getElementById('form');
 const text = document.getElementById('text');
 const amount = document.getElementById('amountEarned');
@@ -116,6 +118,37 @@ function addTransactionDOM(transaction) {
   `;
 
   list.insertBefore(item, list.childNodes[0]);
+
+  const itemIncome = document.createElement('li');
+
+  // Add class based on value
+  itemIncome.classList.add(transaction.amount < 0 ? 'minus' : 'plus');
+
+  itemIncome.innerHTML = `
+    ${transaction.text} <span><br>${sign}$${Math.abs(
+    transaction.amount
+  )}</span> <button class="delete-btn" onclick="removeTransaction(${
+    transaction.id
+  })">x</button>
+  `;
+
+  listIncome.insertBefore(itemIncome, listIncome.childNodes[0]);
+
+  const itemExpense = document.createElement('li');
+
+  // Add class based on value
+  itemExpense.classList.add(transaction.amount < 0 ? 'minus' : 'plus');
+
+  itemExpense.innerHTML = `
+    ${transaction.text} <span><br>${sign}$${Math.abs(
+    transaction.amount
+  )}</span> <button class="delete-btn" onclick="removeTransaction(${
+    transaction.id
+  })">x</button>
+  `;
+
+  listExpense.insertBefore(itemExpense, listExpense.childNodes[0]);
+
 }
 
 // Update the balance, income and expense
@@ -156,6 +189,7 @@ function updateLocalStorage() {
 // Init app
 function init() {
   list.innerHTML = '';
+  //listIncome.innerHTML = '';
 
   transactions.forEach(addTransactionDOM);
   updateValues();

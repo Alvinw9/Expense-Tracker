@@ -90,6 +90,18 @@ h4 {
   margin-bottom: 40px;
 }
 
+.listIncome {
+  list-style-type: none;
+  padding: 0;
+  margin-bottom: 40px;
+}
+
+.listExpense {
+  list-style-type: none;
+  padding: 0;
+  margin-bottom: 40px;
+}
+
 ul {
   overflow: hidden;
   max-height: 300px;
@@ -99,7 +111,7 @@ ul:hover {
   overflow-y: scroll;
 }
 
-.list li {
+li {
   background-color: #fff;
   box-shadow: var(--box-shadow);
   color: #333;
@@ -112,15 +124,15 @@ ul:hover {
   margin: 10px 0;
 }
 
-.list li:hover {
+li:hover {
   width: 90%;
 }
 
-.list li.plus {
+li.plus {
   border-right: 5px solid #2ecc71;
 }
 
-.list li.minus {
+li.minus {
   border-right: 5px solid #ff0000;
 }
 
@@ -141,7 +153,7 @@ ul:hover {
   z-index: 9999;
 }
 
-.list li:hover .delete-btn {
+li:hover .delete-btn {
   opacity: 1;
 }
 
