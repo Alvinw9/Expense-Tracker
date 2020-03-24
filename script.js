@@ -119,35 +119,46 @@ function addTransactionDOM(transaction) {
 
   list.insertBefore(item, list.childNodes[0]);
 
-  const itemIncome = document.createElement('li');
+  // only insert incomes
+  if ( transaction.amount >= 0 ) {
 
-  // Add class based on value
-  itemIncome.classList.add(transaction.amount < 0 ? 'minus' : 'plus');
+    const itemIncome = document.createElement('li');
 
-  itemIncome.innerHTML = `
-    ${transaction.text} <span><br>${sign}$${Math.abs(
-    transaction.amount
-  )}</span> <button class="delete-btn" onclick="removeTransaction(${
-    transaction.id
-  })">x</button>
-  `;
+    // Add class based on value
+    itemIncome.classList.add(transaction.amount < 0 ? 'minus' : 'plus');
 
-  listIncome.insertBefore(itemIncome, listIncome.childNodes[0]);
+    itemIncome.innerHTML = `
+      ${transaction.text} <span><br>${sign}$${Math.abs(
+      transaction.amount
+    )}</span> <button class="delete-btn" onclick="removeTransaction(${
+      transaction.id
+    })">x</button>
+    `;
 
-  const itemExpense = document.createElement('li');
+    listIncome.insertBefore(itemIncome, listIncome.childNodes[0]);
+    
+  }
 
-  // Add class based on value
-  itemExpense.classList.add(transaction.amount < 0 ? 'minus' : 'plus');
 
-  itemExpense.innerHTML = `
-    ${transaction.text} <span><br>${sign}$${Math.abs(
-    transaction.amount
-  )}</span> <button class="delete-btn" onclick="removeTransaction(${
-    transaction.id
-  })">x</button>
-  `;
+  // only insert expenses
+  if ( transaction.amount < 0 ) {
 
-  listExpense.insertBefore(itemExpense, listExpense.childNodes[0]);
+    const itemExpense = document.createElement('li');
+
+    // Add class based on value
+    itemExpense.classList.add(transaction.amount < 0 ? 'minus' : 'plus');
+
+    itemExpense.innerHTML = `
+      ${transaction.text} <span><br>${sign}$${Math.abs(
+      transaction.amount
+    )}</span> <button class="delete-btn" onclick="removeTransaction(${
+      transaction.id
+    })">x</button>
+    `;
+
+    listExpense.insertBefore(itemExpense, listExpense.childNodes[0]);
+
+  }
 
 }
 
