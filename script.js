@@ -45,11 +45,11 @@ function earned() {
   var amounts = transactions.map(transaction => transaction.amount);
   var total = amounts.reduce((acc, item) => (acc += item), 0).toFixed(2);
   var newAmount = +amount.value;
-  var newTotal = parseFloat(total) + parseFloat(newAmount);
+  var newTotal = parseFloat(total) + parseFloat(newAmount.toFixed(2));
 
   const transaction = {
     id: generateID(),
-    text: text.value + `$${newTotal}`,
+    text: text.value + `$${newTotal.toFixed(2)}`,
     amount: +amount.value
   };
 
@@ -72,11 +72,11 @@ function spent() {
   var amounts = transactions.map(transaction => transaction.amount);
   var total = amounts.reduce((acc, item) => (acc += item), 0).toFixed(2);
   var newAmount = -amountSpent.value;
-  var newTotal = parseFloat(total) + parseFloat(newAmount);
+  var newTotal = parseFloat(total) + parseFloat(newAmount.toFixed(2));
   
   const transaction = {
     id: generateID(),
-    text: text.value + `$${newTotal}`,
+    text: text.value + `$${newTotal.toFixed(2)}`,
     amount: -amountSpent.value
   };
 
@@ -115,7 +115,7 @@ function addTransactionDOM(transaction) {
 
     item.innerHTML = `
       ${transaction.text} <span><br>${sign}$${Math.abs(
-      transaction.amount
+      transaction.amount.toFixed(2)
     )}</span> <button class="delete-btn" onclick="removeTransaction(${
       transaction.id
     })">x</button>
@@ -133,7 +133,7 @@ function addTransactionDOM(transaction) {
 
     itemIncome.innerHTML = `
       ${transaction.text} <span><br>${sign}$${Math.abs(
-      transaction.amount
+      transaction.amount.toFixed(2)
     )}</span> <button class="delete-btn" onclick="removeTransaction(${
       transaction.id
     })">x</button>
@@ -176,7 +176,7 @@ function addTransactionDOM(transaction) {
 
     item.innerHTML = `
       ${transaction.text} <span><br>${sign}$${Math.abs(
-      transaction.amount
+      transaction.amount.toFixed(2)
     )}</span> <button class="delete-btn" onclick="removeTransaction(${
       transaction.id
     })">x</button>
@@ -194,7 +194,7 @@ function addTransactionDOM(transaction) {
     
     itemExpense.innerHTML = `
       ${transaction.text} <span><br>${sign}$${Math.abs(
-      transaction.amount
+      transaction.amount.toFixed(2)
     )}</span> <button class="delete-btn" onclick="removeTransaction(${
       transaction.id
     })">x</button>
